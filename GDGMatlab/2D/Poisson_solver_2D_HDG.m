@@ -1,9 +1,13 @@
-function [P,E,T,Pb,Tb,Eb,h,A,A1,A2,A1GAMMA,A2GAMMA,AGAMMA,b,nsub1,nsub2,ngamma,result]=Poisson_Assembler_2D_HDG(h,basis_type,c,f,Dirichlet_fun,Neumann_fun,order_Gauss,alpha_coef)
-% The function Poisson_Assembler_2D_DG_SIP receives the mesh size 'h', the
+function [P,E,T,Pb,Tb,Eb,h,A,A1,A2,A1GAMMA,A2GAMMA,AGAMMA,b,nsub1,nsub2,ngamma,result]=Poisson_solver_2D_HDG(h,basis_type,c,f,Dirichlet_fun,Neumann_fun,order_Gauss,alpha_coef)
+% The function Poisson_solver_2D_HDG receives the mesh size 'h', the
 % 'basis_type', the diffusion function 'c', the RHS 'f', the boundary data
-% 'Dirichlet_fun' and 'Neumann_fun'
-% The output contains the mesh information P,E,T,Pb,Tb,Eb,h and the
-% matrices AHDG,A1,A2,A1GAMMA,A2GAMMA,AGAMMA. See eq (3.3) Soheil's thesis.
+% 'Dirichlet_fun' and 'Neumann_fun', the order of quadrature order Gauss
+% and the penalization coefficient alpha_coef.
+% The output contains the mesh information matrices P,E,T,Pb,Tb,Eb,h and the
+% matrices A,A1,A2,A1GAMMA,A2GAMMA,AGAMMA. See eq (3.3) Soheil's thesis.
+% available at https://archive-ouverte.unige.ch/authors/view/74979.
+% It also computes the right hand side vector b and the solution stored in
+% the vector result.
 %=== Mesh generation
 [P,T,E,Pb,Tb,Eb,h,nsub1,nsub2,ngamma]=generate_mesh_2D_HDG(h,basis_type);
 %=== Assembly of Stiffness matrix

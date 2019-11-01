@@ -1,4 +1,4 @@
-%% Example script to use the DG HDG ( based on lectures by Xiaoming HE)
+%% Example script to use the HDG ( based on lectures by Xiaoming HE)
 clear all;close all;
 f=@(x,y) 2*pi^2*sin(pi*x)*sin(pi*y); %force term
 c=@(x,y) 1; % diffusion term

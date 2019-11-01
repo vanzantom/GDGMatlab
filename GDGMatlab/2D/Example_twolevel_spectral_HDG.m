@@ -11,21 +11,21 @@ order_Gauss=2;
 plt=0;
 alpha_coef=10;
 basis_type=2010;
-gamma=(1/2)*(1+sqrt(hh(index)));
+gamma=(1/2)*(1+sqrt(hh(index)));%optimal parameter
 NC=5; %number of functions in coarse level.
 %======= Assembly matrices and compute solution
 [P,E,T,Pb,Tb,Eb,hmax,AHDG,A1,A2,A1GAMMA,A2GAMMA,AGAMMA,b,nsub1,nsub2,ngamma,result]=Poisson_solver_2D_HDG(hh(index),basis_type,c,f,Dirichlet_fun,Neumann_fun,order_Gauss,alpha_coef);
-uI=result(1:nsub2);
-ulambda=result(nsub2+1:end);
+uI=result(1:nsub2); %u interna
+ulambda=result(nsub2+1:end);%u interface.
 B1=A1GAMMA'*(A1\A1GAMMA);
 B2=A2GAMMA'*(A2\A2GAMMA);
 S=AGAMMA-B1-B2;
-Shat=[AGAMMA-B1,-B2;-B1, AGAMMA-B2];
+Shat=[AGAMMA-B1,-B2;-B1, AGAMMA-B2];%build matrix Shat, see notes.
 %norm(sort(abs(eig(full(Shat))))-sort(abs([eig(full(S));eig(full(AGAMMA))]))) %check Theorem 1 of the notes
-G1=(AGAMMA-B1)\B2;
+G1=(AGAMMA-B1)\B2;% Build smoothing operators
 G2=(AGAMMA-B2)\B1;
 G=[0*AGAMMA,G1;G2,0*AGAMMA];
-G1bar=B1*inv(AGAMMA-B1);
+G1bar=B1*inv(AGAMMA-B1);%build equivalent formulation
 G2bar=B2*inv(AGAMMA-B2);
 Gbar=[0*AGAMMA,G1bar;G2bar,0*AGAMMA];
 Sbar=eye(2*ngamma)-Gbar;
@@ -35,7 +35,8 @@ Gtilde=[0*AGAMMA,G1tilde;G2tilde,0*AGAMMA];
 Stilde=eye(2*ngamma)-Gtilde;
 %======== convergence one level methods.
 vg=eig(full(G));
-max(abs(vg))% check spectral radius OSM is smaller than one.
+fprintf('Maximum eigenvalue of vg %f', max(abs(vg)));
+% check spectral radius OSM is smaller than one.
 [Vbar,Dbar]=eig(full(Gbar));
 [vgbar,ibar]=sort(abs(diag(Dbar)),'descend');
 max(vgbar)% check spectral radius OSM on Robin traces is smaller than one
