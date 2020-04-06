@@ -1,20 +1,41 @@
-function [P,T,E,Pb,Tb,Eb,h]=generate_mesh_2D(h,basis_type)
-% The function 'generate_mesh_2D' generates the mesh on a geometry specified by a geometric function with
-% maximum mesh size 'h'. It returns the vertex matrix P, the element matrix
-% T associated to the mesh and the vertex and Element matrix corresponding
-% to the basis_type.
-% Structure T(:,1)=[#V_1;#V_2;#V_3;Nsubdomain].
-%           P(:,1)=[X_1;Y_1]
-%In E, the first and second rows contain indices of the starting and ending point, 
-%the third and fourth rows contain the starting and ending parameter values, 
-%the fifth row contains the edge segment number, and the sixth and seventh row contain 
-%the left- and right-hand side subdomain numbers.
+%-------------------------------------------------------------------------
+% generate_mesh_2D generates the mesh on a geometry specified by the geometric function geo.fun with
+% maximum mesh size geo.h.
+% generate_mesh_2D receives
+% geo: structure containing a function handle describing the geometry and
+% the meshsize geo.h and a flag for a regular/non regular mesh.
+% basis_type: type of FEM space (linear,quadratic etc..).
+% generate_mesh_2D returns:
+% P: vertex matrix containing position of vertices of the mesh. Eg: P(:,1)=[X_1;Y_1]
+% T: element matrix containing indeces vertices of the elements plus subdomain to which element k belongs. 
+%     Eg: T(:,1)=[#V_1;#V_2;#V_3;Nsubdomain]. If using DG, in T we also
+%     save the indeces of the edges of the triangles.
+% E: edge matrix. The first and second rows contain indices of the starting and ending point of the edge, 
+%   the third and fourth rows contain the starting and ending parameter values, 
+%   the fifth row contains the edge segment number, and the sixth and seventh row contain 
+%   the indeces of subdomains on the left and on the right side.
+% Pb: vertex matrix of the degrees of freedom (If using P1, Pb=P).
+% Tb: element matrix with indeces degrees of freedom on each element ((If using P1, Tb=T)
+% Eb: edge matrix(not needed for FEM, only for DG!). In Eb the first and second rows contain indices of the starting and
+% ending vertices
+% the third and fourth rows contains triangle on the left and on the right
+% according to anticlockwise orientation
+% h: a scalar variable which is equal to the minimum length of an edge.
+
+
+% author: Tommaso Vanzan
+%-------------------------------------------------------------------------
+
+
+function [P,T,E,Pb,Tb,Eb,h]=generate_mesh_2D(geo,basis_type)
 %===================================================
-% Example:
-%201: 2D linear nodal FE on triangle
+%201: 2D linear nodal FE on triangular mesh
 %===== Generation Mesh
-[P,E,T]=initmesh(@square_twosub,'Hmax',h);%general triangular mesh
-%[P,E,T] = poimesh(@square_twosub,1/h,1/h);%regular triangular mesh
+if(geo.regular==0)
+    [P,E,T]=initmesh(geo.fun,'Hmax',geo.h);%general triangular mesh
+else
+    [P,E,T] = poimesh(geo.fun,1/geo.h,1/geo.h);%regular triangular mesh
+end
 %==== Data structure for P1 FE
 if basis_type==201
     Pb=P;
@@ -105,7 +126,7 @@ end
 Eb=Eb(:,(1:num_edges));   
     
     
-%===== Compute diameter mesh. h=minimum length of an edge.
+%===== Compute diameter mesh. h:=minimum length of an edge.
 h=0;
 for i=1:num_edges
 vertex1=Eb(1,i);

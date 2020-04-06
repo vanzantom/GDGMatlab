@@ -1,3 +1,14 @@
+%-------------------------------------------------------------------------
+% generate_boundarynodes receives matrix Pb 
+% generate_boundarynodes returns: 
+% boundary (matrix). boundary(1,k) is the boundary condition label of vertex k (which is on the boundary) and  
+% boundary(2,k) is the index of DOF on the boundary. 
+
+% Attention: This function currently works only for a square (0,1)^2!
+
+% author: Tommaso Vanzan
+%-------------------------------------------------------------------------
+
 function boundary=generate_boundarynodes(Pb)
 %generate_boundarynodes generates a vector with the indexes of the
 %boundary nodes and specify their Type

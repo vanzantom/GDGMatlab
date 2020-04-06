@@ -1,60 +1,60 @@
-function [P,T,E,Pb,Tb,Eb,h,nsub1,nsub2,ngamma]=generate_mesh_2D_HDG(h,basis_type)
-% The function 'generate_mesh_2D_HDG'  generates the mesh on a geometry specified by a geometric function with
-% maximum mesh size 'h'. It returns the vertex matrix P, the element matrix
-% T associated to the mesh and the vertex and Element matrix corresponding
-% to the basis_type.
-% Structure T(:,1)=[#V_1;#V_2;#V_3;Nsubdomain].
-%           P(:,1)=[X_1;Y_1]
-%In E, the first and second rows contain indices of the starting and ending point, 
-%the third and fourth rows contain the starting and ending parameter values, 
-%the fifth row contains the edge segment number, and the sixth and seventh row contain 
-%the left- and right-hand side subdomain numbers.
-%It returns also the number of DOF in first and second subdomain
-%nsub1,nsub2 and the number of DOF on the interface gamma.
-% Example:
-%===============================
-%201: 2D linear nodal FE on triangle
-%===== Generation Mesh
-[P,E,T]=initmesh(@square_twosub,'Hmax',h);%general triangular mesh
-%[P,E,T] = poimesh(@square_twosub,1/h,1/h);%regular triangular mesh. NOT
-%compatible with HDG.
-%==== Data structure for P1 FE
-if basis_type==201
-    Pb=P;
-    Tb=T(1:end-1,:);
-    Eb=E;%not needed.
-%==== Data structure for HDG P1 FE
-% Output: Eb the first and second rows contain indices of the starting and ending point
+%-------------------------------------------------------------------------
+% generate_mesh_2D_HDG generates the mesh on a geometry specified by the geometric function geo.fun with
+% maximum mesh size geo.h.
+% generate_mesh_2D_HDG receives
+% geo: structure containing a function handle describing the geometry and
+% the meshsize geo.h and a flag for a regular/non regular mesh.
+% basis_type: type of DG space (linear,quadratic etc..).
+% generate_mesh_2D_HDG returns:
+% P: vertex matrix containing position of vertices of the mesh. Eg: P(:,1)=[X_1;Y_1]
+% T: element matrix containing indeces vertices of the elements plus subdomain to which element k belongs. 
+%     Eg: T(:,1)=[#V_1;#V_2;#V_3;Nsubdomain]. If using DG, in T we also
+%     save the indexes of the edges of the triangles.
+% E: edge matrix. The first and second rows contain indices of the starting and ending point of the edge, 
+%   the third and fourth rows contain the starting and ending parameter values, 
+%   the fifth row contains the edge segment number, and the sixth and seventh row contain 
+%   the indeces of subdomains on the left and on the right side.
+% Pb: vertex matrix of the degrees of freedom (If using P1, Pb=P).
+% Tb: element matrix with indeces degrees of freedom on each element ((If using P1, Tb=T)
+% Eb: edge matrix(not needed for FEM, only for DG!). In Eb the first and second rows contain indices of the starting and
+% ending vertices
 % the third and fourth rows contains triangle on the left and on the right
-% according to anticlockwise orientation. 5th rows equal to 1 if the edge
-% lies on the interface.
-% Output: T has 7 rows. 3 index Vertices, 1 Subdomain label, 3 Edges
-% indexes
-% parameters nsub1 and nsub2 describe last DOF index of subdomain 1 and 2.
-elseif basis_type==2010
-    Tb=T(1:end-1,:);% Just line to copy the last row of T.
+% according to anticlockwise orientation
+% h: a scalar variable which is equal to the minimum length of an edge.
+% Nsub:   vector. Nsub(j) contains last index DoF in subdomain j.
+% ngamma:  total number of DOF on Gamma
+% indexGamma: vector containing indexes DOFs on Gamma. (If using two
+%               subdomains, the indexes in indexGamma are ordered on the
+%               interfaces increasingly in y
+
+% author: Tommaso Vanzan
+%-------------------------------------------------------------------------
+
+
+function [P,T,E,Pb,Tb,Eb,h,Nsub,ngamma,indexGamma]=generate_mesh_2D_HDG(geo,basis_type)
+    
+
+[P,E,T]=initmesh(geo.fun,'Hmax',geo.h);%general triangular mesh
+
+if basis_type==2010
+    Tb=T(1:end-1,:);% Just line to copy rows of T.
     T=[T;zeros(3,size(T,2))];% 
     j=0;
-    for k=1:size(T,2) % loop over the element
-        if(T(4,k)==1)
-          for i=1:3 % I assigned the vertices of the DOF to the vertices of the elements.
-              j=j+1;
-              Pb(:,j)=P(:,T(i,k));
-          end
-          Tb((1:3),k)=[j-2;j-1;j]; % Now each Triangule has its own DOF.
+    %==== I run over the subdomains and triangles to assign DOF in order to
+    %each subdomain!
+    Nsubdomains=max(T(4,:)); %get Numbers of subdomains
+    for jj=1:Nsubdomains
+        for k=1:size(T,2) % loop over the elements
+            if(T(4,k)==jj)
+              for i=1:3 % I assigned the vertices of the DOF to the vertices of the elements.
+                  j=j+1;
+                  Pb(:,j)=P(:,T(i,k));
+              end
+              Tb((1:3),k)=[j-2;j-1;j]; % Now each Triangule has its own DOF.
+            end
         end
+        Nsub(jj)=j;%last index is the number of DOFs in Nsub
     end
-    nsub1=j;%last index nsub1
-    for k=1:size(T,2) % loop over the element
-        if(T(4,k)==2)
-          for i=1:3 % I assigned the vertices of the DOF to the vertices of the elements.
-              j=j+1;
-              Pb(:,j)=P(:,T(i,k));
-          end
-          Tb((1:3),k)=[j-2;j-1;j]; % Now each Triangule has its own DOF.
-        end
-    end
-    nsub2=j;%last index nsub2
     %% ============= BUILD MATRIX E_B
 max_num_edges= 3 * size(P,2)- 6;
 num_edges=1;
@@ -124,25 +124,43 @@ Eb=Eb(:,(1:num_edges));
 Eb=[Eb;zeros(3,size(Eb,2))];% interface label
 %========================================
 % Identify which edges are on the interface and add DOF in Pb.
-j=nsub2;
-for k=1:num_edges
-    T_1= Eb(3,k);
-    T_2=Eb(4,k);
-    if(T_2~=-1)
-        T_1_label=T(4,T_1);
-        T_2_label=T(4,T_2);
-        if(T_1_label~=T_2_label);
-            Eb(5,k)=1;
-            j=j+1;
-            Pb(:,j)=P(:,Eb(1,k));
-            j=j+1;
-            Pb(:,j)=P(:,Eb(2,k));
-            Eb(6,k)=j-1;
-            Eb(7,k)=j;
+%========================================
+j=Nsub(end);
+indeces=ones(Nsubdomains);%index vectors. One counting variable for each subdomain
+indexGamma=cell(Nsubdomains,1);% Each cell contains the indeces of the DOF on GAMMA belonging to each subdomain
+if(strcmp(geo.fun,'square_twosub')==0) %Unless I am dealing with two subdomains, I do not care about the order of the points on the interface.
+    for k=1:num_edges
+        T_1= Eb(3,k);
+        T_2=Eb(4,k);
+        if(T_2~=-1)
+            T_1_label=T(4,T_1);
+            T_2_label=T(4,T_2);
+            if(T_1_label~=T_2_label);
+                    Eb(5,k)=1;
+                    j=j+1;
+                    Pb(:,j)=P(:,Eb(1,k));
+                    j=j+1;
+                    Pb(:,j)=P(:,Eb(2,k));
+                    indexGamma{T_1_label}(indeces(T_1_label))=j-1;%IndexGamma{k} is a vector containing the DOFs on Gamma which lie on Gamma_k(Gamma_k is the interface of subdomain k)
+                    indexGamma{T_1_label}(indeces(T_1_label)+1)=j;
+                    indexGamma{T_2_label}(indeces(T_2_label))=j-1;
+                    indexGamma{T_2_label}(indeces(T_2_label)+1)=j;
+                    indeces(T_1_label)=indeces(T_1_label)+2;
+                    indeces(T_2_label)=indeces(T_2_label)+2;
+                    Eb(6,k)=j-1;
+                    Eb(7,k)=j;
+            end
         end
     end
 end
-ngamma=j-nsub2;
+if(strcmp(geo.fun,'square_twosub')==1)
+   [Eb,Pb,indexGamma,j]=order_vertices_Gamma_twosubdomains(Eb,T,P,Pb,indexGamma,indeces,num_edges,j);
+end
+    
+    
+    
+    
+ngamma=j-Nsub(end);
 
 %% Compute diameter mesh
 h=0;

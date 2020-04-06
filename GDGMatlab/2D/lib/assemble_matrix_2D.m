@@ -1,17 +1,20 @@
+%-------------------------------------------------------------------------
+% assemble_matrix_2D receives 
+% coe_fun: the diffusion coefficient 
+% mesh matrices: T,P 
+% Tb_trial,Tb_test: matrices with information on trial and test finite element space 
+% matrixsize1,matrixsize2: size of the stiffness matrix 
+% basis_type_trial,basis_type_test: finite element space type trial/test
+% der_x_trial,der_x_test, der_y_trial,der_y_test,: order of derivatives in the bilinea form
+% order_gauss: Order of Gauss quadrature.
+% assemble_matrix_2D returns: 
+% A (matrix) whose entry A_{i,j}= \int (c(\partial_x)^der_x_trial (\partial_y)^der_y_trial \phi_j)((\partial_x)^der_x_test (\partial_y)^der_y_test \phi_j)
+
+
+% author: Tommaso Vanzan
+%-------------------------------------------------------------------------
+
 function A=assemble_matrix_2D(coe_fun,P,T,Tb_trial,Tb_test,matrixsize1,matrixsize2,basis_type_trial,der_x_trial,der_y_trial,basis_type_test,der_x_test,der_y_test,order_Gauss)
-% The function 'assemble_matrix_2D' is based on the 1D assemble matrix.
-% It computes the contribution of the intregrals in 2D, 'der_x_trial','der_y_trial' and
-% ,der_x_test','der_y_test'.
-%=== It receives 
-% coe_fun= Diffusion coefficient.
-% P, T=> vertex matrix of the mesh
-% Tb_trial, Tb_test=> DOFs of the Finite_element type on the elements.
-% matrixsize1,matrixsiz2=> DOFS of the trial and test space.
-% basis_type_trial/test=> FE space for trial and test
-% der_(x/y)_(trial/test)=> order derivative in (x/y) of (test/trial) space.
-% order_Gauss=> order of Gauss quadrature.
-
-
 %=== Create sparse matrix and define parameters.
 A=sparse(matrixsize1,matrixsize2);%create sparse matrix
 number_of_elements=size(T,2); %number of Elements

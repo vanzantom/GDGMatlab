@@ -1,10 +1,21 @@
-function [A,b]=treat_boundary(A,b,boundary,Pb,Dirichlet_fun)
-%treat_boundary is a function which receives the Matrix A, the right hand
-%side b, the matrix of the DOF Pb, and the Dirichlet data Dirichlet_fun.
-%According to the label associated to the boundary nodes, it implements
-%Dirichlet BC(-1) or Neumann(-2)
+%-------------------------------------------------------------------------
+% treat_boundary receives 
+% A: stiffness matrix
+% b: right hand side vector
+% boundary: matrix describing the boundary conditions on the boundary
+% Pb: matrix with position degrees of freedom.
+% Dirichlet_fun: Dirichlet boundary data
+%treat_boundary returns
+% A: modified stiffness matrix where the Dirichlet BC are strongly imposed
+% b: modified right hand side vector to include boundary conditions
 
-% NB: Neumann BC are still to implement!
+% Attention: Neumann BC are still to implement!
+
+% author: Tommaso Vanzan
+%-------------------------------------------------------------------------
+
+function [A,b]=treat_boundary(A,b,boundary,Pb,Dirichlet_fun)
+
 %========================================================================
 nbn=size(boundary,2);
 for k=1:nbn

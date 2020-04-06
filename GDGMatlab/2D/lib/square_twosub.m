@@ -26,8 +26,8 @@ end
 d=[
   0 0 0 0 0 0 0    % start parameter value
   1/2 1 1/2 1 1/2 1 1/2   % end parameter value
-  0 2 0 0 0 0  0      % left hand region
-  1 1 1 1 2  2 2     % right hand region
+  0 2 0 0 0 0 0      % left hand region
+  1 1 1 1 2 2 2     % right hand region
 ];
 
 bs1=bs(:)';

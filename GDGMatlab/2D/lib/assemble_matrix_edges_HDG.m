@@ -1,18 +1,28 @@
-function A=assemble_matrix_edges_HDG(coe_fun,P,T,Pb,Tb_trial,Tb_test,Eb,matrixsize1,matrixsize2,basis_type_trial,basis_type_test,order_Gauss,alpha_coef)
-% The function 'assemble_matrix_edges_HDG' computes the edges terms of a
-% HDG, see page 32 Soheil's thesis.
-% formulation. Check Antonietti's slides for implementation and Soheil's
-% thesis for a formulation.(Check also Cockburn since Soheil's
-% implementation differs on the boundary.)
-%=== It receives 
-% coe_fun= Diffusion coefficient.
-% P, T=> vertex matrix of the mesh
-% Tb_trial, Tb_test=> DOFs of the Finite_element type on the elements.
-% matrixsize1,matrixsiz2=> DOFS of the trial and test space.
-% basis_type_trial/test=> FE space for trial and test
-% order_Gauss=> order of Gauss quadrature.
+%-------------------------------------------------------------------------
+%  assemble_matrix_edges_HDG computes the edges terms of the bilinear form
+%  a_i(,) of an HDG formulatio, see page eq. (2.45) Soheil's thesis https://archive-ouverte.unige.ch/authors/view/74979. 
+% assemble_matrix_edges_HDG
+% coe_fun: the diffusion coefficient 
+% mesh matrices: T,P,Eb
+% Tb_trial,Tb_test: matrices with information on trial and test finite element space 
+% matrixsize1,matrixsize2: size of the stiffness matrix 
+% basis_type_trial,basis_type_test: finite element space type trial/test
+% para: structure containing order of Gauss quadrature and DG penalization
+%       coefficient
+% assemble_matrix_edges_IP: 
+% A (matrix) which is the stiffness matrix associated to all the edge
+% terms of a_i(,) in an HDG discretization. 
 
 
+% author: Tommaso Vanzan
+%-------------------------------------------------------------------------
+
+
+
+function A=assemble_matrix_edges_HDG(coe_fun,P,T,Pb,Tb_trial,Tb_test,Eb,matrixsize1,matrixsize2,basis_type_trial,basis_type_test,para,order_Gauss,alpha_coef)
+
+order_Gauss=para.order_Gauss;
+alpha_coef=para.alpha_coef;
 %=== Create sparse matrix and define parameters.
 A=sparse(matrixsize1,matrixsize2);%create sparse matrix
 number_of_elements=size(T,2); %number of Elements
@@ -21,6 +31,7 @@ number_of_local_basis_test=size(Tb_test,1); %number of test local basis function
 normal=zeros(2,1);
 vintern=zeros(2,1);
 tau=zeros(2,1);
+
 %=== Loop to assembly the contribution over the boundary of triangles.
 for n=1:number_of_elements % Loop over the triangles.
     for j=1:3 %loop over the edges

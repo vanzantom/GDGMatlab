@@ -1,10 +1,31 @@
-function A=assemble_matrix_HDG_AGamma(coe_fun,P,Eb_trial,Eb_test,Eb,nsub2,ngamma,basis_type_trial,basis_type_test,order_Gauss,alpha_coef)
+%-------------------------------------------------------------------------
+% assemble_matrix_HDG_AGamma receives 
+% coe_fun: the diffusion coefficient 
+% mesh matrix:  P
+% Eb_trial,Eb_test: matrices with information on trial and test finite
+% element space on Gamma
+% Nsub: is a vector. Nsub(jj) last index of DOF in subdomain jj.
+% ngamma: number DOFs on interface Gamma.
+% basis_type_trial,basis_type_test: finite element space type trial/test
+% der_x_trial,der_x_test, der_y_trial,der_y_test,: order of derivatives in the bilinea form
+% order_gauss: Order of Gauss quadrature.
+% alpha_coef: DG penalization parameter
+% assemble_matrix_HDG_AGamma returns: 
+% A_Gamma (matrix) whose entry A_{i,j}= \alpha/h \int_\Gamma  \phi_j \phi_i)
 
+
+% author: Tommaso Vanzan
+%-------------------------------------------------------------------------
+
+function A=assemble_matrix_HDG_AGamma(coe_fun,P,Eb_trial,Eb_test,Eb,Nsub,ngamma,basis_type_trial,basis_type_test,para)
+
+order_Gauss=para.order_Gauss;
+alpha_coef=para.alpha_coef;
 ii=find(Eb(5,:)==1); %find edges on the interface.
 number_of_local_basis_trial=size(Eb(6:end,1),1);
 number_of_local_basis_test=size(Eb(6:end,1),1);
-A=sparse(nsub2+ngamma,nsub2+ngamma);
-for n=1:length(ii)
+A=sparse(Nsub(end)+ngamma,Nsub(end)+ngamma);
+for n=1:length(ii) %for each edge on interface Gamma, compute contributions.
     vertex1=Eb(1,ii(n));
     vertex2=Eb(2,ii(n));
     vertices1=P(:,vertex1);
