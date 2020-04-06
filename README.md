@@ -37,6 +37,10 @@ Currently implemented are:
 -P1HDG Hybrid Discontinous Galerking method (HDG). (Homogeneous Dirichlet BC)
 
 
+Updates:
+-6/04/2020: Upload a new version of the library. The functionalities are the same, but the codes are better commented.
+
+
 Future developments:
 
 -Implementation of general Dirichlet and Neumann BC in DG 1D.
