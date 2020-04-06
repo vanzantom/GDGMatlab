@@ -1,13 +1,22 @@
+%-------------------------------------------------------------------------
+% FE_local_basis receives a point in x in which evaluete the basis function
+% on the local element.
+% basis_type: specifies  the kind of FE Space.
+% basis_index: is a variable containing the index of the local basis
+% function inside the local element.(Ex: 1D linear I have two basis functions.)
+% der: specifies if I compute the value of the function or of its
+% derivative.
+
+%author: Tommaso Vanzan
+%-------------------------------------------------------------------------
 function result=FE_local_basis(x,vertices,basis_type,basis_index,der)
-%FE_local_basis receives a point in x in which evaluete the basis function.
-% basis_type stands for the kind of FE Space.
-% basis_index is a variable containing the index of the local basis
-% function. Ex: 1D linear I have two values.
-% der tells me if I want the derivative or not.
 
-%===================
 
-%basis_type==%101 1D linear nodal basis functions
+
+%=====================================
+% 1D linear nodal basis functions
+% basis_type==101 
+%=====================================
 if basis_type==101
    xn=vertices(1);
    xnp1=vertices(2);

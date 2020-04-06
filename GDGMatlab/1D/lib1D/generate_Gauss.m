@@ -1,8 +1,14 @@
+%-------------------------------------------------------------------------
+% generate_Gauss generates Netwon-Cotes formulae on the interval described
+% by input array vertices.
+% type=1=> trapeizodal rule
+% type=2=>Simpson rule
+% author: Tommaso Vanzan
+%-------------------------------------------------------------------------
+
+
 function [Gauss_nodes,Gauss_weights]=generate_Gauss(vertices,type)
-%generate_Gauss generates Netwon-Cotes formulae on the interval described
-%by vertices.
-%type=1=> trapeizodal rule
-%type=2=>Simpson rule
+
 h=(vertices(2)-vertices(1));
 if type==1
 Gauss_nodes(1)=vertices(1);

@@ -1,3 +1,16 @@
+%-------------------------------------------------------------------------
+% generate_boundarynodes receives matrix Tb and one label for each extremum
+% of the interval (a,b) (a_label,b_label).
+% It exploits that the elements in Tb are  
+%
+% generate_boundarynodes returns: 
+% boundary (matrix). boundary(1,1) is the boundary condition label of vertex a and  
+% boundary(2,1) is the element which contains vertex a. Similarly for
+% vertex b
+% author: Tommaso Vanzan
+%-------------------------------------------------------------------------
+
+
 function boundary=generate_boundarynodes(Tb,a_label,b_label)
 %generate_boundarynodes generates a vector with the indexes of the
 %boundary nodes and specify their Type

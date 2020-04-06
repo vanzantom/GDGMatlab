@@ -1,6 +1,20 @@
+%-------------------------------------------------------------------------
+% FE_reference_basis receives a point x_hat in which evaluating the refernece basis function
+% on the reference element.
+% basis_type: specifies  the kind of FE Space.
+% basis_index: is a variable containing the index of the local basis
+% function inside the local element.(Ex: 1D linear I have two basis functions.)
+% der: specifies if I compute the value of the function or of its
+% derivative.
+
+%author: Tommaso Vanzan
+%-------------------------------------------------------------------------
+
 function result=FE_reference_basis_1D(x_hat,basis_type,basis_index,der)
-%FE_reference_basis_1D creates, according to the basis type the FE
-%functions on a reference elemennt [0,1]
+%=====================================
+% 1D linear nodal basis functions
+% basis_type==101 
+%=====================================
 if basis_type==101
     if basis_index==1
         if der==0
@@ -24,6 +38,10 @@ if basis_type==101
          fprintf('error in order derivative');
         end
     end
+%=====================================
+% 1D quadratic nodal basis functions
+% basis_type==102 
+%=====================================
 
 elseif basis_type==102
     if basis_index==1 % function 1 on the left boundary.
