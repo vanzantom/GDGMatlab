@@ -36,9 +36,6 @@ Currently implemented are:
 
 -P1HDG Hybrid Discontinous Galerking method (HDG). (Homogeneous Dirichlet BC)
 
--A further code to implement Optimized Schwarz methods for Hybrid discontinous Galerkin discretization.
-
-Martin J. Gander and Soheil Hajian, Analysis of Schwarz methods for a hybridizable discontinuous Galerkin discretization, SIAM Journal on Numerical Analysis, 53 (2015), pp. 573-597
 
 Future developments:
 
