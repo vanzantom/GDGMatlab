@@ -38,7 +38,7 @@ Currently implemented are:
 
 
 Updates:
--6/04/2020: Upload a new version of the library. The functionalities are the same, but the codes are better commented.
+-6/04/2020: Uploaded a new version of the library. The functionalities are the same, but the codes are better commented.
 
 
 Future developments:
