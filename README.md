@@ -30,6 +30,8 @@ Currently implemented are:
 
 -P1-FEM (General Dirichlet BC).
 
+-P2-FEM (General Dirichlet BC).
+
 -P1DG Symmetric Interior Penalty method (IP). (Homogeneous Dirichlet BC)
 
 -P1DG Hybridizable Symmetric Interior Penaly method(IPH). (Homogeneous Dirichlet BC)
