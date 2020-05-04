@@ -16,7 +16,7 @@
 %   the indeces of subdomains on the left and on the right side.
 % Pb: vertex matrix of the degrees of freedom (If using P1, Pb=P).
 % Tb: element matrix with indeces degrees of freedom on each element ((If using P1, Tb=T)
-% Eb: edge matrix(not needed for FEM, only for DG!). In Eb the first and second rows contain indices of the starting and
+% Eb: edge matrix. In Eb the first and second rows contain indices of the starting and
 % ending vertices
 % the third and fourth rows contains triangle on the left and on the right
 % according to anticlockwise orientation
@@ -36,11 +36,15 @@ if(geo.regular==0)
 else
     [P,E,T] = poimesh(geo.fun,1/geo.h,1/geo.h);%regular triangular mesh
 end
-%==== Data structure for P1 FE
-if basis_type==201
-    Pb=P;
+
+if basis_type==201%==== Data structure for P1 FE
+    Pb=P;% DOFs correspond to vertex triangles
     Tb=T(1:end-1,:);
-    Eb=E;%not needed.
+    Eb=buildmatrixEb_FEM(P,T);
+elseif basis_type==202    %==== Data structure for P2 FE
+    Eb=buildmatrixEb_FEM(P,T);
+    [Pb,Tb]=buildmatrixPb_Tb_P2_FEM(P,T,Eb);
+
 %==== Data structure for DG P1 FE
 % Output: Eb the first and second rows contain indices of the starting and
 % ending vertices
