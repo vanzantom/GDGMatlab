@@ -34,8 +34,8 @@ para.basis_type=2010;%2010 is the code for P1 discontinous Finite element
 
 % Variables for Postprocessing
 uex=@(x,y) sin(pi*x).*sin(pi*y);%exact solution
-hh=[1/2;1/8;1/16;1/32;1/64];% set of meshsize to check convergence
-plt=3; % Set equal to 0 to disable plot, equal to 1 to plot solution, equal to 2 to plot mesh elements.
+hh=[1/2;1/8;1/16;1/32];% set of meshsize to check convergence
+plt=0; % Set equal to 0 to disable plot, equal to 1 to plot solution, equal to 2 to plot mesh elements.
        % Set equal to 3 to plot decomposition into subdomains
 Nsub=1;
 
@@ -45,8 +45,8 @@ Nsub=1;
 
 for i=1:length(hh)
 geo.h=hh(i);
-%[P,E,T,Pb,Tb,Eb,hmax,u]=Poisson_solver_2D_DG_IP(geo,data,para);
-[P,E,T,Pb,Tb,Eb,hmax,u]=Poisson_solver_2D_DG_IPH(geo,data,para);
+[P,E,T,Pb,Tb,Eb,hmax,u]=Poisson_solver_2D_DG_IP(geo,data,para);
+%[P,E,T,Pb,Tb,Eb,hmax,u]=Poisson_solver_2D_DG_IPH(geo,data,para);
 
 hvec(i)=hmax;%maximum length of an edge
 for k=1:size(Pb,2)%computing the exact solution in the degrees of freedom
