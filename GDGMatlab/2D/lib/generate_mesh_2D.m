@@ -40,9 +40,9 @@ end
 if basis_type==201%==== Data structure for P1 FE
     Pb=P;% DOFs correspond to vertex triangles
     Tb=T(1:end-1,:);
-    Eb=buildmatrixEb_FEM(P,T);
+    [Eb]=buildmatrixEb_P1_FEM(P,T,E);
 elseif basis_type==202    %==== Data structure for P2 FE
-    Eb=buildmatrixEb_FEM(P,T);
+    Eb=buildmatrixEb_P1_FEM(P,T);
     [Pb,Tb]=buildmatrixPb_Tb_P2_FEM(P,T,Eb);
 
 %==== Data structure for DG P1 FE

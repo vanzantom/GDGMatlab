@@ -16,7 +16,8 @@ function boundary=generate_boundarynodes(Pb)
 j=1;
 for k=1:size(Pb,2)
     if( Pb(1,k)==0 || Pb(1,k)==1 || Pb(2,k)==1 || Pb(2,k)==0)
-        boundary(1,k)=-1;
-        boundary(2,k)=k;
+        boundary(1,j)=-1;
+        boundary(2,j)=k;
+        j=j+1;
     end
 end

@@ -12,15 +12,15 @@
 %-------------------------------------------------------------------------
 
 
-function [P,E,T,result]=Poisson_solver_2D_FEM(geo,data,para)
+function [P,E,T,Pb,Tb,Eb,result]=Poisson_solver_2D_FEM(geo,data,para)
 % The function Poisson_solver_2D receives the mesh size 'h', the
 % 'basis_type', the diffusion function 'c', the RHS 'f', the boundary data
 % 'Dirichlet_fun'
 
 %=== Mesh generation
-[P,T,E,Pb,Tb,~]=generate_mesh_2D(geo,para.basis_type);
+[P,T,E,Pb,Tb,Eb]=generate_mesh_2D(geo,para.basis_type);
 %=== Identification of Boundary
-boundarynodes=generate_boundarynodes(Pb);% get the boundary nodes and their type.
+boundaryedges=generate_boundaryedges(Tb,Eb,E,data.label,para.basis_type);% get the boundary nodes and their type.
 %=== Assembly of Stiffness matrix
 matrixsize1=size(Pb,2);% number of DOF. Supposing conforming FE spaces
 matrixsize2=size(Pb,2);
@@ -29,7 +29,7 @@ A=A+assemble_matrix_2D(data.c,P,T,Tb,Tb,matrixsize1,matrixsize2,para.basis_type,
 %=== Assembly RHS
 b=assemble_rhs_2D(data.f,P,T,Tb,matrixsize2,para.basis_type,0,0); % Assemble the right hand side
 %=== Take Care of Boundary
-[A,b]=treat_boundary(A,b,boundarynodes,Pb,data.Dirichlet_fun);% Strong imposition of Dirichlet conditions.
+[A,b]=treat_boundary(A,b,boundaryedges,Pb,Tb,Tb,para,data.Dirichlet_fun,data.Neumann_fun,data.Robin_fun);% Strong imposition of Dirichlet conditions.
 %=== Solution
 result=A\b;
 end

@@ -1,7 +1,7 @@
 function result=FE_local_basis_2D(x,y,vertices,basis_type,basis_index,der_x,der_y)
 
 
-if basis_type==201 || basis_type==2010 || basis_type==202
+
 J=abs((vertices(1,2)-vertices(1,1))*(vertices(2,3)-vertices(2,1)) -(vertices(1,3)-vertices(1,1))*(vertices(2,2)-vertices(2,1)));
 
 x_hat=((vertices(2,3)-vertices(2,1))*(x-vertices(1,1))-(vertices(1,3)-vertices(1,1))*(y-vertices(2,1)))/J;
@@ -16,5 +16,5 @@ elseif der_x==0 && der_y==1
     result= ((-vertices(1,3)+vertices(1,1)))/J*FE_reference_basis_2D(x_hat,y_hat,basis_type,basis_index,1,0) + 1/J*(vertices(1,2)-vertices(1,1))*FE_reference_basis_2D(x_hat,y_hat,basis_type,basis_index,0,1);
 end
 
-end
+
 end
