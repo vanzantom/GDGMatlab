@@ -15,7 +15,7 @@ All possible bugs/errors are my full responsibiliy.
 If you find one, please send an email to tommaso.vanzan@unige.ch.
 
 Currently implemented are:
-1D
+1D  
 -P1-FEM (Dirichlet and Neumann Boundary conditions (BC))  
 -P2-FEM (Dirichlet and Neumann BC)  
 -P1-DG-Symmetric Interior Penalty method (IP)  (homogeneous Dirichlet BC)  
@@ -23,7 +23,7 @@ Currently implemented are:
 -P1-DG-Hybridizable Symmetric Interior Penalty method (IPH)  (homogeneous Dirichlet BC)  
 -P2-DG-Hybridizable Symmetric Interior Penalty method (IPH)  (homogeneous Dirichlet BC)  
 
-2D
+2D  
 -P1-FEM (Dirichlet/Neumann/Robin BC).  
 -P2-FEM (Dirichlet/Neumann/Robin BC).  
 -P1-DG Symmetric Interior Penalty method (IP). (Homogeneous Dirichlet BC)  
