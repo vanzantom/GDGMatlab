@@ -16,24 +16,24 @@ If you find one, please send an email to tommaso.vanzan@unige.ch.
 
 Currently implemented are:
 1D
--P1-FEM (Dirichlet and Neumann Boundary conditions (BC))
--P2-FEM (Dirichlet and Neumann BC)
--P1-DG-Symmetric Interior Penalty method (IP)  (homogeneous Dirichlet BC)
--P2-DG-Symmetric Interior Penalty method (IP)  (homogeneous Dirichlet BC)
--P1-DG-Hybridizable Symmetric Interior Penalty method (IPH)  (homogeneous Dirichlet BC)
--P2-DG-Hybridizable Symmetric Interior Penalty method (IPH)  (homogeneous Dirichlet BC)
+-P1-FEM (Dirichlet and Neumann Boundary conditions (BC))  
+-P2-FEM (Dirichlet and Neumann BC)  
+-P1-DG-Symmetric Interior Penalty method (IP)  (homogeneous Dirichlet BC)  
+-P2-DG-Symmetric Interior Penalty method (IP)  (homogeneous Dirichlet BC)  
+-P1-DG-Hybridizable Symmetric Interior Penalty method (IPH)  (homogeneous Dirichlet BC)  
+-P2-DG-Hybridizable Symmetric Interior Penalty method (IPH)  (homogeneous Dirichlet BC)  
 
 2D
--P1-FEM (Dirichlet/Neumann/Robin BC).
--P2-FEM (Dirichlet/Neumann/Robin BC).
--P1-DG Symmetric Interior Penalty method (IP). (Homogeneous Dirichlet BC)
--P1-DG Hybridizable Symmetric Interior Penaly method(IPH). (Homogeneous Dirichlet BC)
--P1-HDG Hybrid Discontinous Galerking method (HDG). (Homogeneous Dirichlet BC)
+-P1-FEM (Dirichlet/Neumann/Robin BC).  
+-P2-FEM (Dirichlet/Neumann/Robin BC).  
+-P1-DG Symmetric Interior Penalty method (IP). (Homogeneous Dirichlet BC)  
+-P1-DG Hybridizable Symmetric Interior Penaly method(IPH). (Homogeneous Dirichlet BC)  
+-P1-HDG Hybrid Discontinous Galerking method (HDG). (Homogeneous Dirichlet BC)  
 
 Further it includes example files to solve diffusion problems and Stokes problems.
 
 
 Future developments:
 
--Implementation of general Dirichlet and Neumann BC in DG 1D.
--Implementation of general Dirichlet BC in 2D for DG.
+-Implementation of general Dirichlet and Neumann BC in DG 1D.  
+-Implementation of general Dirichlet BC in 2D for DG.  
