@@ -36,4 +36,3 @@ Future developments:
 
 -Implementation of general Dirichlet and Neumann BC in DG 1D.
 -Implementation of general Dirichlet BC in 2D for DG.
-
