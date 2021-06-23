@@ -30,7 +30,7 @@ Currently implemented are:
 -P1-DG Hybridizable Symmetric Interior Penaly method(IPH). (Homogeneous Dirichlet BC)  
 -P1-HDG Hybrid Discontinous Galerking method (HDG). (Homogeneous Dirichlet BC)  
 
-Further it includes example files to solve diffusion problems and Stokes problems.
+Further it includes example files to solve Poisson,Stokes and Stokes-Darcy problems.
 
 
 Future developments:
