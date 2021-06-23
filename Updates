@@ -1,0 +1,9 @@
+Update June 2021:
+
+-   assemble_matrices_2D e int_Gauss_2D_trial_test require now a function handle with an extra parameter El (e.g c=@(x,y,El) ).
+    El represents the current element over which int_Gauss_2D_trial_test is integrating, so that we can use functions c defined only over the nodes of the mesh
+    and interpolating in the interior Gauss nodes. 
+
+2) treat_symmetry eliminates the DOF associated to Dirichlet BC and returns a symmetric matrix. Currently it works only with
+    homogeneous BC, because I did not implement yet the function which modifies the right hand side to take into account the
+    nonhomogeneous BC.
