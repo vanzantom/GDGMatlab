@@ -1,15 +1,11 @@
 %-------------------------------------------------------------------------
 % Stokes_solver_2D receives
-% geo: structure containing a function handle describing the geometry and
-% the meshsize geo.h
-% data: structure containing diffusion coefficient, force term, Dir BC.
-% basis_type: type of FEM space (linear,quadratic etc..).
+% geo: structure containing description of the geometry and
+% data/para: structure containing parameters of the problems
 % Stokes_solver_2D returns:
 % unknowns u,v,p
-% Mesh matrix T
-% FE matrices Ebve,Pbve,Tbve,Pbpre,Tppre. (ve refers to velocity, pre to
-% pressure)
-% P,E,T: mesh matrices.
+% Triangle matrix T
+% FE matrices Ebve,Pbve,Tbve,Pbpre,Tppre. 
 
 % author: Tommaso Vanzan
 %-------------------------------------------------------------------------

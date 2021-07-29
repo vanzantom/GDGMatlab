@@ -29,7 +29,7 @@ paraStokes.Robin=0;
 %   Darcy
 %=================================
 qex=@(x,y) -(2-pi*sin(pi*x))*(y+1);
-dataDarcy.g1=@(x,y) pi^2*cos(pi*x)*(y + 1); %force term 
+dataDarcy.g1=@(x,y) +pi^2*cos(pi*x)*(y + 1); %force term 
 dataDarcy.g2=@(x,y)0 ;
 dataDarcy.c=@(x,y,El) 1; % diffusion term
 dataDarcy.Dirichlet_fun=@(x,y) qex(x,y); % boundary condition
