@@ -13,7 +13,7 @@ geo.regular=1; % flag to have a regular triangular mesh.( geo.regular needs to s
 % The structure para contains parameters of the problem such as the order
 % of Gauss quadrature.
 para.order_Gauss=2; %Order Gauss quadrature.
-para.mu=1;% viscosity
+para.mu=0.1;% viscosity
 para.basis_type_ve=202; 
 para.basis_type_pre=201;
 para.index_fix_pressure=2;
@@ -33,7 +33,7 @@ data.Dirichlet_v=@(x,y) vex(x,y);
 data.Normal_stress=@(x,y) (2*para.mu*(-2*x*y^2) -pex(x,y));
 data.Robin_stress=@(x,y) (2*para.mu*(-2*x*y^2) -pex(x,y))-para.Robin*vex(x,y); %(n'*T(u,p)*n + p n'*(u,v))
 data.labelu=[-1,-1,-1,-1];% -1 Dirichlet, -2 Neumann,-3 Robin.
-data.labelv=[-1,-1,-3,-1];
+data.labelv=[-1,-1,-1,-1];
 
 plt=0;
 hh=[1/4;1/8;1/16;1/32];
