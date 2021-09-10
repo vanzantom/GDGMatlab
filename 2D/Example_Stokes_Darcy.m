@@ -24,14 +24,13 @@ paraStokes.basis_type_ve=202; %P2 FE space 202
 paraStokes.basis_type_pre=201; %P2 FE space 202
 paraStokes.index_fix_pressure=0;
 paraStokes.Robin=0;
-
+paraDarcy.eta=1;
 %=================================
 %   Darcy
 %=================================
 qex=@(x,y) -(2-pi*sin(pi*x))*(y+1);
-dataDarcy.g1=@(x,y) +pi^2*cos(pi*x)*(y + 1); %force term 
-dataDarcy.g2=@(x,y)0 ;
-dataDarcy.c=@(x,y,El) 1; % diffusion term
+dataDarcy.f=@(x,y) paraDarcy.eta*(pi^3*sin(pi*x))*(y+1); %force term 
+dataDarcy.c=@(x,y,El) paraDarcy.eta; % diffusion term
 dataDarcy.Dirichlet_fun=@(x,y) qex(x,y); % boundary condition
 dataDarcy.Neumann_fun=@(x,y)  0; % -(2-pi*sin(pi*x));%;
 dataDarcy.label=[-3,-1,-1,-1];% Robin boundary condition on the top edge.

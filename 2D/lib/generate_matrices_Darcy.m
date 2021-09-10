@@ -24,9 +24,7 @@ matrixsize2=size(Pb,2);
 ANeumann=assemble_matrix_2D(data.c,P,T,Tb,Tb,matrixsize1,matrixsize2,para.basis_type,1,0,para.basis_type,1,0,para.order_Gauss); %Assemble the matrix of the contribution of x gradient
 ANeumann=ANeumann+assemble_matrix_2D(data.c,P,T,Tb,Tb,matrixsize1,matrixsize2,para.basis_type,0,1,para.basis_type,0,1,para.order_Gauss);  %Assemble the matrix of the contribution of  y gradient
 %A now is a Neumann matrix.
-b=assemble_rhs_2D(data.g1,P,T,Tb,matrixsize2,para.basis_type,1,0);%compute possible f term
-b=b+assemble_rhs_2D(data.g2,P,T,Tb,matrixsize2,para.basis_type,0,1);%compute possible f term
-
+b=assemble_rhs_2D(data.f,P,T,Tb,matrixsize2,para.basis_type,0,0);
 
 [A,ARobin,ADir,b,M_GG,e]=impose_boundary_Darcy(ANeumann,b,boundary,Pb,Tb,Tb,para,data.Dirichlet_fun,data.Neumann_fun);% create a matrix which has Dirichlet conditions on three edge and Neumann on the top edge
 
