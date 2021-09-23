@@ -21,15 +21,15 @@ paraDarcy.Robin=0;
 paraStokes.order_Gauss=2; %Order Gauss quadrature.
 paraStokes.mu=0.1;
 paraStokes.basis_type_ve=202; %P2 FE space 202
-paraStokes.basis_type_pre=201; %P2 FE space 202
+paraStokes.basis_type_pre=201; %P1 FE space 201
 paraStokes.index_fix_pressure=0;
 paraStokes.Robin=0;
-paraDarcy.eta=1;
+paraDarcy.eta=10^(-2);
 %=================================
 %   Darcy
 %=================================
-qex=@(x,y) -(2-pi*sin(pi*x))*(y+1);
-dataDarcy.f=@(x,y) paraDarcy.eta*(pi^3*sin(pi*x))*(y+1); %force term 
+qex=@(x,y) -(1/paraDarcy.eta)*(2-pi*sin(pi*x))*(y+1);
+dataDarcy.f=@(x,y) (pi^3*sin(pi*x))*(y+1); %force term 
 dataDarcy.c=@(x,y,El) paraDarcy.eta; % diffusion term
 dataDarcy.Dirichlet_fun=@(x,y) qex(x,y); % boundary condition
 dataDarcy.Neumann_fun=@(x,y)  0; % -(2-pi*sin(pi*x));%;
@@ -39,9 +39,9 @@ dataDarcy.label=[-3,-1,-1,-1];% Robin boundary condition on the top edge.
 %=================================
 uex=@(x,y) x^2*y^2+exp(-y);
 vex=@(x,y) -2/3*x*y^3+2-pi*sin(pi*x);
-pex=@(x,y) -(2-pi*sin(pi*x))*cos(2*pi*y);
-dataStokes.f1=@(x,y) -2*paraStokes.mu*x^2-2*paraStokes.mu*y^2-paraStokes.mu*exp(-y)+pi^2*cos(pi*x)*cos(2*pi*y); %force term 
-dataStokes.f2=@(x,y) 4*paraStokes.mu*x*y-paraStokes.mu*pi^3*sin(pi*x)+2*pi*(2-pi*sin(pi*x))*sin(2*pi*y); %force term 
+pex=@(x,y) -(1/paraDarcy.eta)*(2-pi*sin(pi*x))*cos(2*pi*y);
+dataStokes.f1=@(x,y) -2*paraStokes.mu*x^2-2*paraStokes.mu*y^2-paraStokes.mu*exp(-y)+ (1/paraDarcy.eta)*pi^2*cos(pi*x)*cos(2*pi*y); %force term 
+dataStokes.f2=@(x,y) 4*paraStokes.mu*x*y-paraStokes.mu*pi^3*sin(pi*x)+(1/paraDarcy.eta)*2*pi*(2-pi*sin(pi*x))*sin(2*pi*y); %force term 
 dataStokes.mu=@(x,y,El) paraStokes.mu; % diffusion term
 dataStokes.Dirichlet_u=@(x,y) uex(x,y); % boundary condition
 dataStokes.Dirichlet_v=@(x,y) vex(x,y); % boundary condition
