@@ -18,7 +18,7 @@ geo.b=1;
 % e.g. force term, diffusion coefficient, boundary conditions
 data.f=@(x) 2*pi*exp(x).*(2*pi*sin(2*pi*x)-cos(2*pi*x)); %force term
 data.c=@(x) exp(x); % diffusion term
-data.Dirichlet_fun=@(x) 0 ; % boundary condition
+data.Dirichlet_fun=@(x) sin(2*pi*x) ; % boundary condition
 data.Neumann_fun=@(x) cos(1)-sin(1); %DO NOT USE NEUMANN
 data.left=-1;%label variable for left node. If data.left=-1, then we have Dirichlet B.C. on x=a. If data.left=-1, then we have Neumann B.C. on x=a
 data.right=-1;%label variable for right node. 
@@ -37,7 +37,7 @@ for i=1:length(hh)
 geo.h=hh(i); %mesh size
 penalty=alpha/geo.h; %penalty term 
 [u,P,T,Pb,Tb]=Poisson_solver_1DIPH(geo,basis_type,data,penalty);
-x=(0:geo.h:1)'; %discrete mesh
+x=(geo.a:geo.h:geo.b)'; %discrete mesh
 uexvec=uex(x); %comput exact solution
 if plt==1
     figure(1); hold on;
@@ -65,7 +65,7 @@ for i=1:length(hh)
 geo.h=hh(i);
 penalty=alpha/geo.h;
 [u2order,P,T,Pb,Tb]=Poisson_solver_1DIPH(geo,basis_type,data,penalty);
-x2order=(0:geo.h/2:1)'; %discrete mesh
+x2order=(geo.a:geo.h/2:geo.b)'; %discrete mesh
 uexvec=uex(x2order); %exact solution
 if plt==1
     figure(1); hold on;

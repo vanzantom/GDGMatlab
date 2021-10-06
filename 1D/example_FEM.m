@@ -12,13 +12,13 @@ addpath('lib1D')
 addpath('solvers')
 % The structure geo contains the extrema of the interval Omega=(a,b)
 geo.a=0;
-geo.b=1;
+geo.b=2;
 % The structure data contains information about the data of the problem,
 % e.g. force term, diffusion coefficient, boundary conditions
 data.f=@(x) -exp(x)*(cos(x)-2*sin(x)-x*cos(x)-x*sin(x)); 
 data.c=@(x) exp(x); % diffusion term
-data.Dirichlet_fun=@(x) (1-x)*0 + x*cos(1) ; % boundary condition. % Label Dirichlet=-1
-data.Neumann_fun=@(x) cos(1)-sin(1); %Label Neumann=-2
+data.Dirichlet_fun=@(x) x.*cos(x) ; % boundary condition. % Label Dirichlet=-1
+data.Neumann_fun=@(x) (cos(x)-x*sin(x)); %Label Neumann=-2 %set correct boundary conditions. Being careful to sign external normal vectors.
 data.left=-1;%label variable for left node. If data.left=-1, then we have Dirichlet B.C. on x=a. If data.left=-1, then we have Neumann B.C. on x=a
 data.right=-1;%label variable for right node. 
 % Variables for Postprocessing
@@ -32,7 +32,7 @@ basis_type=101;% Linear P1
 for i=1:length(hh)
 geo.h=hh(i);%mesh size
 u=Poisson_solver_1D(geo,basis_type,data);%solve the Problem
-x=(0:geo.h:1)';
+x=(geo.a:geo.h:geo.b)';
 uexvec=uex(x);%evaluate exact solution
 normvec(i)=norm(uexvec-u,2)*sqrt(geo.h);
 if plt==1
@@ -53,7 +53,7 @@ basis_type=102;%Quadratic Finite element
 for i=1:length(hh)
 geo.h=hh(i);%mesh size
 u2order=Poisson_solver_1D(geo,basis_type,data);%solve problem
-x2order=(0:geo.h/2:1)';
+x2order=(geo.a:geo.h/2:geo.b)';
 uexvec=uex(x2order);
 normvec(i)=norm(uexvec-u2order,2)*sqrt(geo.h);
 if plt==1
