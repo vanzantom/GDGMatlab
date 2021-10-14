@@ -12,7 +12,7 @@ addpath('lib1D')
 addpath('solvers')
 % The structure geo contains the extrema of the interval Omega=(a,b)
 geo.a=0;
-geo.b=2;
+geo.b=5;
 % The structure data contains information about the data of the problem,
 % e.g. force term, diffusion coefficient, boundary conditions
 data.f=@(x) -exp(x)*(cos(x)-2*sin(x)-x*cos(x)-x*sin(x)); 
@@ -33,6 +33,8 @@ for i=1:length(hh)
 geo.h=hh(i);%mesh size
 u=Poisson_solver_1D(geo,basis_type,data);%solve the Problem
 x=(geo.a:geo.h:geo.b)';
+%Adding the boundary values in case I eliminated them using treat_boundary_symmetric
+u=[data.Dirichlet_fun(geo.a);u;data.Dirichlet_fun(geo.b)];
 uexvec=uex(x);%evaluate exact solution
 normvec(i)=norm(uexvec-u,2)*sqrt(geo.h);
 if plt==1
@@ -55,6 +57,8 @@ geo.h=hh(i);%mesh size
 u2order=Poisson_solver_1D(geo,basis_type,data);%solve problem
 x2order=(geo.a:geo.h/2:geo.b)';
 uexvec=uex(x2order);
+%Adding the boundary values in case I eliminated them using treat_boundary_symmetric
+u2order=[data.Dirichlet_fun(geo.a);u2order;data.Dirichlet_fun(geo.b)];
 normvec(i)=norm(uexvec-u2order,2)*sqrt(geo.h);
 if plt==1
     plot(x2order,u2order)

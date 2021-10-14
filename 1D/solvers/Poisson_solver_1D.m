@@ -16,6 +16,7 @@ matrixsize1=size(Pb,2);% number of DOF. Supposing conforming FE spaces
 matrixsize2=size(Pb,2);
 A=assemble_matrix_1D(data.c,P,T,Tb,Tb,matrixsize1,matrixsize2,basis_type,1,basis_type,1); %Assemble the matrix
 b=assemble_rhs_1D(data.f,P,T,Tb,matrixsize2,basis_type,0); % Assemble the right hand side
-[A,b]=treat_boundary(A,b,boundarynodes,P,Pb,data.c,data.Dirichlet_fun,data.Neumann_fun);% Strong imposition of Dirichlet conditions.
+%[A,b]=treat_boundary(A,b,boundarynodes,P,Pb,data.c,data.Dirichlet_fun,data.Neumann_fun);% Strong imposition of Dirichlet conditions.
+[A,b,int]=treat_boundary_symmetric(A,b,boundarynodes,Pb,data.c,data.Dirichlet_fun,data.Neumann_fun);
 result=A\b;%solve
 end

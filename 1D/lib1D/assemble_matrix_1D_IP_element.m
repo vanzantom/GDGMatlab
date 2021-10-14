@@ -21,6 +21,7 @@ number_of_local_basis_trial=size(Tb_trial,1); %number of trial local basis funct
 number_of_local_basis_test=size(Tb_test,1); %number of test local basis function on a single element
 for n=1:number_of_elements %loop over elements
     vertices=P(:,T(:,n)); % mesh information then I use P and T
+    h=vertices(2)-vertices(1);
     for alpha=1:number_of_local_basis_trial
         for beta=1:number_of_local_basis_test %from reference-> local -> global assembly.
             if n>1 && n<number_of_elements

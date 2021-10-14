@@ -6,10 +6,11 @@ function result=stabilizationIPH(coe_fun,vertices1,vertices2,vertex,basis_type_t
 % variable vertex contains the position of the interface.
 h=vertices1(end)-vertices1(1);
 if der_trial+der_test==0
-result=FE_reference_basis_1D((vertex-vertices1(1))/h,basis_type_trial,basis_index_trial,der_trial)*FE_reference_basis_1D((vertex-vertices2(1))/h,basis_type_test,basis_index_test,der_test);
+result=FE_local_basis(vertex,vertices1,basis_type_trial,basis_index_trial,der_trial)*FE_local_basis(vertex,vertices2,basis_type_test,basis_index_test,der_test);
 elseif der_trial+der_test==2
-result=(1/h)^2*coe_fun(vertex)^2*FE_reference_basis_1D((vertex-vertices1(1))/h,basis_type_trial,basis_index_trial,der_trial)*FE_reference_basis_1D((vertex-vertices2(1))/h,basis_type_test,basis_index_test,der_test);
+result=coe_fun(vertex)^2*FE_local_basis(vertex,vertices1,basis_type_trial,basis_index_trial,der_trial)*FE_local_basis(vertex,vertices2,basis_type_test,basis_index_test,der_test);
 else
     printf('error in stabilizationIPH');
+end
 end
 

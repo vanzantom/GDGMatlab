@@ -20,6 +20,7 @@ result=0;
 %cycle over the element to compute the 1 norm. \|uex_der-u_der\|_L2
 for k=1:number_elements
     vertices=P(:,T(:,k));
+    h=vertices(end)-vertices(1);
     [Gauss_nodes,Gauss_weights]=generate_Gauss(vertices,2);
     uelement=u(Tb(:,k));
     result=result+Gauss_quadrature_1D_volume_err(uex_der,uelement,Tb,Gauss_nodes,Gauss_weights,vertices,basis_type_trial);

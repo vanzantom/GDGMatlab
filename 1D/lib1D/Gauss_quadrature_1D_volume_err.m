@@ -6,7 +6,7 @@ r=0;
 for k=1:Gpn %loop on the Gaussian nodes
          upp=0;
          for j=1:number_of_local_basis_trial
-             upp=upp+uapp(j)*1/h*FE_reference_basis_1D((Gauss_nodes(k)-vertices(1))/h,basis_index_trial,j,1);
+             upp=upp+uapp(j)*FE_local_basis(Gauss_nodes(k),vertices,basis_index_trial,j,1);
          end
         r=r+Gauss_weights(k)*(feval(f_exact,Gauss_nodes(k))-upp)^2;
 end

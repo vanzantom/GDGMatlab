@@ -10,36 +10,12 @@
 %author: Tommaso Vanzan
 %-------------------------------------------------------------------------
 function result=FE_local_basis(x,vertices,basis_type,basis_index,der)
-
-
-
-%=====================================
-% 1D linear nodal basis functions
-% basis_type==101 
-%=====================================
-if basis_type==101
-   xn=vertices(1);
-   xnp1=vertices(2);
-   h=xnp1-xn;
-   if der==0
-       if basis_index==1
-              result=(xnp1-x)/h;
-       elseif basis_index==2
-              result=(x-xn)/h;
-       else 
-            fprintf('error basis_index');
-       end 
-   elseif der==1
-       if basis_index==1
-              result=-1/h;
-       elseif basis_index==2
-              result=1/h;
-       else 
-            fprintf('error basis_index');
-       end
-   elseif der>1
-      result=0; 
-   end
+h=vertices(2)-vertices(1);
+x_hat=(x-vertices(1))/h;
+if der==0
+    result=FE_reference_basis_1D(x_hat,basis_type,basis_index,der);
+elseif der==1
+    result=(1/h)*FE_reference_basis_1D(x_hat,basis_type,basis_index,der);
 else
-    fprintf('no such type stored');
+    fprintf('Order derivative higher than expected');
 end
