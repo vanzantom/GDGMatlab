@@ -26,8 +26,7 @@ if basis_type==101
         else
          fprintf('error in order derivative');
         end
-    end
-    if basis_index==2
+    elseif basis_index==2
         if der==0
            result=x_hat;
         elseif der==1
@@ -55,8 +54,7 @@ elseif basis_type==102
         else
          fprintf('error in order derivative');
         end
-    end
-    if basis_index==3 % function 1 on the right boundary.
+    elseif basis_index==3 % function 1 on the right boundary.
         if der==0
            result=2*x_hat.^2-x_hat;
         elseif der==1
@@ -67,8 +65,7 @@ elseif basis_type==102
         else
          fprintf('error in order derivative');
         end
-    end
-    if basis_index==2  % function 1 in the middle.
+    elseif basis_index==2  % function 1 in the middle.
         if der==0
            result=-4*x_hat.^2+4*x_hat;
         elseif der==1
