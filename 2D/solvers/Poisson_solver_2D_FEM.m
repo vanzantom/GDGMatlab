@@ -29,7 +29,10 @@ A=A+assemble_matrix_2D(data.c,P,T,Tb,Tb,matrixsize1,matrixsize2,para.basis_type,
 %=== Assembly RHS
 b=assemble_rhs_2D(data.f,P,T,Tb,matrixsize2,para.basis_type,0,0); % Assemble the right hand side
 %=== Take Care of Boundary
-[A,b]=treat_boundary(A,b,boundaryedges,Pb,Tb,Tb,para,data.Dirichlet_fun,data.Neumann_fun,data.Robin_fun);% Strong imposition of Dirichlet conditions.
+[A,b,ug,int,out]=treat_boundary_symmetric(A,b,boundaryedges,Pb,Tb,Tb,para,data.Dirichlet_fun,data.Neumann_fun,data.Robin_fun);% Strong imposition of Dirichlet conditions.
 %=== Solution
-result=A\b;
+x=A\b;
+result=zeros(size(Pb,2),1);
+result(int)=x;
+result(out)=ug(out);
 end

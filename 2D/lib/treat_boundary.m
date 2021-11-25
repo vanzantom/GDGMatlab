@@ -1,6 +1,6 @@
-function [A,b]=treat_boundary(A,b,boundary,Pb,Tb_trial,Tb_test,para,Dirichlet_fun,Neumann_fun,Robin_fun)
+function [A,b,ug,int,out]=treat_boundary_symmetric(A,b,boundary,Pb,Tb_trial,Tb_test,para,Dirichlet_fun,Neumann_fun,Robin_fun)
 %-------------------------------------------------------------------------
-% treat_boundary receives 
+% treat_boundary_symmetric receives 
 % A: stiffness matrix
 % b: right hand side vector
 % boundary: boundaryedge matrix
@@ -11,13 +11,17 @@ function [A,b]=treat_boundary(A,b,boundary,Pb,Tb_trial,Tb_test,para,Dirichlet_fu
 % Neumann_fun: Neumann boundary data
 % Robin_fun: Neumann boundary data
 %treat_boundary returns
-% A: modified stiffness matrix where the Dirichlet BC are strongly imposed
+% A: modified stiffness matrix where the Dirichlet nodes are eliminated.
 % b: modified right hand side vector to include boundary conditions
+% ug: vector containing Dirichlet values
+% int: vector of indices of interior degrees of freedom
+% out: vector of indices of eliminated Dirichlet nodes.
 
 % author: Tommaso Vanzan
 %-------------------------------------------------------------------------
 %========================================================================
 nbn=size(boundary,2);
+v=ones(size(A,1),1);
 for k=1:nbn
     if boundary(1,k)==-2 %Neumann data
         El=boundary(2,k);% Element which as edge boundary(2,k).
@@ -52,11 +56,21 @@ for k=1:nbn
         
     elseif boundary(1,k)==-1% Dirichlet Data
         index=boundary(3:end,k);% indexes of nodes which are on the edge boundary
+       
         for j=1:length(index)
-            A(index(j),:)=0;
-            A(index(j),index(j))=1;
-            b(index(j))=feval(Dirichlet_fun,Pb(1,index(j)),Pb(2,index(j)));
+             v(index(j))=-1;
         end
     end
     
+end
+
+int=find(v~=-1);%nodes not on the Dirichlet boundary
+out=find(v==-1); %nodes on the Dirichlet boundary
+ug=zeros(size(Pb,2),1);
+for k=1:length(out)
+    ug(out(k))=Dirichlet_fun(Pb(1,out(k)),Pb(2,out(k)));
+end
+b=b-A*ug;
+b=b(int);
+A=A(int,int);
 end

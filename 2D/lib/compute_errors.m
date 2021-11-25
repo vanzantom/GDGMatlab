@@ -37,12 +37,12 @@ for n=1:number_of_elements % Loop over the triangles.
         err_element_x=0; % construction derivative_x error inside each element
         err_element_y=0;% construction derivative_y error inside each element
         for alpha=1:number_of_local_basis_trial %loop over trial functions on the element for trial FE space.
-            err_element=err_element +(u_app_n(alpha)-u_exact_n(alpha))*FE_local_basis_2D(Gauss_nodes(k,1),Gauss_nodes(k,2),vertices,para.basis_type,alpha,0,0);
-            err_element_x=err_element_x + (u_app_n(alpha)-u_exact_n(alpha))*FE_local_basis_2D(Gauss_nodes(k,1),Gauss_nodes(k,2),vertices,para.basis_type,alpha,1,0);
-            err_element_y=err_element_y + (u_app_n(alpha)-u_exact_n(alpha))*FE_local_basis_2D(Gauss_nodes(k,1),Gauss_nodes(k,2),vertices,para.basis_type,alpha,0,1);
+            err_element=err_element + (u_app_n(alpha)-u_exact_n(alpha))*FE_local_basis_2D(Gauss_nodes(k,1),Gauss_nodes(k,2),vertices,para.basis_type,alpha,0,0) ;
+            err_element_x=err_element_x +  (u_app_n(alpha)-u_exact_n(alpha))*FE_local_basis_2D(Gauss_nodes(k,1),Gauss_nodes(k,2),vertices,para.basis_type,alpha,1,0) ;
+            err_element_y=err_element_y + (u_app_n(alpha)-u_exact_n(alpha))*FE_local_basis_2D(Gauss_nodes(k,1),Gauss_nodes(k,2),vertices,para.basis_type,alpha,0,1) ;
            
         end
-        error_L2=error_L2+J*Gauss_weights(k)*(err_element)^2;
+        error_L2=error_L2+J*Gauss_weights(k)*(err_element^2);
         error_H1=error_H1+J*Gauss_weights(k)*( err_element_x^2+err_element_y^2);
     end
         

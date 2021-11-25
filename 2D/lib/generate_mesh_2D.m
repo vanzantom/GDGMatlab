@@ -41,10 +41,19 @@ if basis_type==201%==== Data structure for P1 FE
     Pb=P;% DOFs correspond to vertex triangles
     Tb=T(1:end-1,:);
     [Eb]=buildmatrixEb_P1_FEM(P,T,E);
+elseif basis_type==2011
+    Pb=P;% DOFs correspond to vertex triangles
+    Tb=T(1:end-1,:);
+    [Eb]=buildmatrixEb_P1_FEM(P,T,E);
+    [Pb,Tb]=enrich_Pb_Tb_bubble(Pb,Tb,basis_type);
+    
 elseif basis_type==202    %==== Data structure for P2 FE
     Eb=buildmatrixEb_P1_FEM(P,T);
     [Pb,Tb]=buildmatrixPb_Tb_P2_FEM(P,T,Eb);
-
+elseif basis_type==2021
+    Eb=buildmatrixEb_P1_FEM(P,T);
+    [Pb,Tb]=buildmatrixPb_Tb_P2_FEM(P,T,Eb);
+    [Pb,Tb]=enrich_Pb_Tb_bubble(Pb,Tb,basis_type);
 %==== Data structure for DG P1 FE
 % Output: Eb the first and second rows contain indices of the starting and
 % ending vertices

@@ -9,7 +9,7 @@ Gauss_nodes(2)=vertices2;
 Gauss_weights(1)=1/2;
 Gauss_weights(2)=1/2;
 Gauss_weights=Gauss_weights*edge_length;
-elseif type==2
+elseif type>=2
 Gauss_nodes(:,1)=vertices1;
 Gauss_nodes(:,2)=(vertices1+vertices2)/2;
 Gauss_nodes(:,3)=vertices2;
