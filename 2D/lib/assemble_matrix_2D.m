@@ -31,6 +31,7 @@ for n=1:number_of_elements % Loop over the triangles.
         for beta=1:number_of_local_basis_test %loop over trial functions on the element for test FE space.
             int_value=J*Gauss_quadrature_2D_volume_trial_test(coe_fun,Gauss_nodes,Gauss_weights,vertices,basis_type_trial,alpha,der_x_trial,der_y_trial,basis_type_test,beta,der_x_test,der_y_test,n);
             A(Tb_test(beta,n),Tb_trial(alpha,n))=A(Tb_test(beta,n),Tb_trial(alpha,n))+int_value;
+            AA(alpha,beta)=int_value;
         end
     end
 end

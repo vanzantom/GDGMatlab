@@ -1,30 +1,44 @@
 function [Gauss_nodes,Gauss_weights]=generate_Gauss_2D(vertices,type)
 % The function 'generate_Gauss_2D' delivers the Gaussian nodes on the
 % current element defined by the vector vertices.
-% This code is a slight modification
+
 
 %=== Linear map 
 A=[(vertices(1,2)-vertices(1,1)),(vertices(1,3)-vertices(1,1));(vertices(2,2)-vertices(2,1)),(vertices(2,3)-vertices(2,1))];
-%=== Order of Gauss quadrature and nodes on the reference element.
-w_2D=[];
-node_2D=[];
-% nodes on the 1d interval [-1,1]
-n=type;
-[x,w]= gauleg(-1,1,n);
 
-
-for i=1:n
-    for j=1:n
-        node_2D=[node_2D; (1+x(i))./2 , (1-x(i)).*(1+x(j))./4];
-        w_2D = [w_2D, (1-x(i)).*w(i).*w(j)./8];
+if type >=1
+    %=== Order of Gauss quadrature and nodes on the reference element.
+    w_2D=[];
+    node_2D=[];
+    % nodes on the 1d interval [-1,1]
+    n=type;
+    [x,w]= gauleg(-1,1,n);
+    for i=1:n
+        for j=1:n
+            node_2D=[node_2D; (1+x(i))./2 , (1-x(i)).*(1+x(j))./4];
+            w_2D = [w_2D, (1-x(i)).*w(i).*w(j)./8];
+        end
     end
+    v=[vertices(1,1); vertices(2,1)];
+    v=repmat(v,1,size(node_2D,1));
+    Gauss_nodes=node_2D;
+    Gauss_nodes=A*Gauss_nodes'+v;
+    Gauss_nodes=Gauss_nodes';
+    Gauss_weights=w_2D;
+elseif type==-1
+    Gauss_nodes=vertices';
+    Gauss_weights=[1/3,1/3,1/3];
+elseif type==-2   
+    %Lumped for P2b 
+    Gauss_nodes=[0,0;1,0;0,1;0.5,0;0,0.5;0.5,0.5;1/3,1/3];
+    v=[vertices(1,1); vertices(2,1)];
+    v=[v,v,v,v,v,v,v];
+    Gauss_nodes=A*Gauss_nodes'+v;
+    Gauss_nodes=Gauss_nodes';
+    Gauss_weights=[1/20,1/20,1/20,2/15,2/15,2/15,9/20];
 end
-v=[vertices(1,1); vertices(2,1)];
-v=[v,v,v,v];
-Gauss_nodes=node_2D;
-Gauss_nodes=A*Gauss_nodes'+v;
-Gauss_nodes=Gauss_nodes';
-Gauss_weights=w_2D;
+    
+    
 function [x,w]= gauleg(a,b,n)
 
 m=(n+1)/2;

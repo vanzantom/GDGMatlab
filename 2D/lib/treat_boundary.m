@@ -1,4 +1,4 @@
-function [A,b,ug,int,out]=treat_boundary_symmetric(A,b,boundary,Pb,Tb_trial,Tb_test,para,Dirichlet_fun,Neumann_fun,Robin_fun)
+function [A,b,ug,int,out]=treat_boundary(A,b,boundary,Pb,Tb_trial,Tb_test,para,Dirichlet_fun,Neumann_fun,Robin_fun)
 %-------------------------------------------------------------------------
 % treat_boundary_symmetric receives 
 % A: stiffness matrix
