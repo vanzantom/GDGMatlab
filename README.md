@@ -4,7 +4,7 @@ GDGMatlab contains libraries to implement Finite element methods (FEM) and Disco
 PREMISE: The library is not oriented to high performance computing. Througout the codes, a modular, easy to undestand and to generalize approach is preferred over the performance. Thus, GDGMatlab is oriented to educational and research purposes only. 
 
 
-GDGMatlab is inspired by several works. I would like to thank:
+GDGMatlab is inspired by several works:
 
 - GDG90: A Fortran library, developed by Soheil Hajian, which contains some of the features of GDGMatlab and further ones.
 - Lectures notes on the implementation of Finite element methods by Prof. Xiaoming He, Missouri University of Science & Technology.
@@ -16,16 +16,12 @@ If you find one, please send an email to tommaso.vanzan@unige.ch.
 
 Currently implemented are:
 1D  
--P1-FEM (Dirichlet and Neumann Boundary conditions (BC))  
--P2-FEM (Dirichlet and Neumann BC)  
--P1-DG-Symmetric Interior Penalty method (IP)  (homogeneous Dirichlet BC)  
--P2-DG-Symmetric Interior Penalty method (IP)  (homogeneous Dirichlet BC)  
--P1-DG-Hybridizable Symmetric Interior Penalty method (IPH)  (homogeneous Dirichlet BC)  
--P2-DG-Hybridizable Symmetric Interior Penalty method (IPH)  (homogeneous Dirichlet BC)  
+-FEM (P1,P2) (Dirichlet and Neumann Boundary conditions (BC))  
+-DG-Symmetric Interior Penalty method (P1,P2) (IP)  (homogeneous Dirichlet BC)  
+-DG-Hybridizable Symmetric Interior Penalty method (IPH) (P1,P2)  (homogeneous Dirichlet BC)  
 
 2D  
--P1-FEM (Dirichlet/Neumann/Robin BC).  
--P2-FEM (Dirichlet/Neumann/Robin BC).  
+-FEM (P1,P1b,P2,P2b) (Dirichlet/Neumann/Robin BC).  
 -P1-DG Symmetric Interior Penalty method (IP). (Homogeneous Dirichlet BC)  
 -P1-DG Hybridizable Symmetric Interior Penaly method(IPH). (Homogeneous Dirichlet BC)  
 -P1-HDG Hybrid Discontinous Galerking method (HDG). (Homogeneous Dirichlet BC)  
