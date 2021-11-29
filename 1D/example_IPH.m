@@ -17,7 +17,7 @@ geo.b=1;
 % The structure data contains information about the data of the problem,
 % e.g. force term, diffusion coefficient, boundary conditions
 data.f=@(x) 2*pi*exp(x).*(2*pi*sin(2*pi*x)-cos(2*pi*x)); %force term
-data.c=@(x) exp(x); % diffusion term
+data.c=@(x,El) exp(x); % diffusion term
 data.Dirichlet_fun=@(x) sin(2*pi*x) ; % boundary condition
 data.Neumann_fun=@(x) cos(1)-sin(1); %DO NOT USE NEUMANN
 data.left=-1;%label variable for left node. If data.left=-1, then we have Dirichlet B.C. on x=a. If data.left=-1, then we have Neumann B.C. on x=a
