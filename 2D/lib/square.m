@@ -79,4 +79,6 @@ if length(ii)
 x(ii)=interp1([d(1,4),d(2,4)],[0 0],s(ii));
 y(ii)=interp1([d(1,4),d(2,4)],[0 1],s(ii));
 end
+%y=0.1*y;
+%x=0.1*x;
 end

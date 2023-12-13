@@ -17,7 +17,7 @@ geo.regular=1; % flag to have a regular triangular mesh.( geo.regular needs to s
 % The structure para contains parameters of the problem such as the order
 % of Gauss quadrature.
 para.order_Gauss=2; %Order Gauss quadrature.
-para.basis_type=202; %P1 FE space 201, P2 FE space 202
+para.basis_type=201; %P1 FE space 201, P2 FE space 202
 para.Robin=1;
 % The structure data contains information about the data of the problem,
 % e.g. force term, diffusion coefficient, boundary conditions
